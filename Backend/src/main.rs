@@ -195,3 +195,48 @@ async fn download_chunk(Query(params): Query<DownloadParams>) -> impl IntoRespon
         .body(body)
         .unwrap()
 }
+
+// async fn download_chunk(Query(params): Query<DownloadParams>) -> impl IntoResponse {
+//     let file_path = format!("./uploads/{}", sanitize_filename(&params.fileName));
+//     let mut file = match File::open(&file_path) {
+//         Ok(f) => f,
+//         Err(_) => return StatusCode::NOT_FOUND.into_response(),
+//     }; match file.read(&mut buffer) {
+//         Ok(n) => n,
+//         Err(_) => return StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+//     };
+
+
+//     let file_length = file.metadata().unwrap().len();
+
+//     // Ensure offset and chunkSize are valid
+//     if params.offset >= file_length {
+//         return StatusCode::RANGE_NOT_SATISFIABLE.into_response();
+//     }
+
+//     let chunk_size = params.chunkSize.min((file_length - params.offset) as usize);
+//     let mut buffer = vec![0; chunk_size];
+
+//     if let Err(_) = file.seek(SeekFrom::Start(params.offset)) {
+//         return StatusCode::INTERNAL_SERVER_ERROR.into_response();
+//     }
+
+//     let bytes_read =
+//     let body = Body::from(buffer[..bytes_read].to_vec());
+
+//     Response::builder()
+//         .status(StatusCode::PARTIAL_CONTENT)
+//         .header("Content-Type", "application/octet-stream")
+//         .header(
+//             "Content-Range",
+//             format!(
+//                 "bytes {}-{}/{}",
+//                 params.offset,
+//                 params.offset + bytes_read as u64 - 1,
+//                 file_length
+//             ),
+//         )
+//         .header("Accept-Ranges", "bytes")
+//         .body(body)
+//         .unwrap()
+// }
